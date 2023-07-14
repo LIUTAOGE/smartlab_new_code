@@ -1,0 +1,142 @@
+exp_name: chemistry
+
+exp_class:
+  scale#zero:
+    object:
+      - scale
+    predict:
+      - zero
+    name:
+      平衡标尺#归零
+
+  scale#nonzero:
+    object:
+      - scale
+    predict:
+      - nonzero
+    name:
+      平衡标尺#不归零
+
+  left.tray#put_beaker:
+    object:
+      - left.tray
+    predict:
+      - put_beaker
+    name:
+      左托盘#放烧杯
+
+  left.tray#put_weight:
+    object:
+      - left.tray
+    predict:
+      - put_weight
+    name:
+      左托盘#放砝码
+
+  left.tray#other:
+    object:
+      - left.tray
+    predict:
+      - other
+    name:
+      左托盘#其他
+
+  right.tray#put_beaker:
+    object:
+      - right.tray
+    predict:
+      - put_beaker
+    name:
+      右托盘#放烧杯
+
+  right.tray#put_weight:
+    object:
+      - right.tray
+    predict:
+      - put_weight
+    name:
+      右托盘#放砝码
+
+  right.tray#other:
+    object:
+      - right.tray
+    predict:
+      - other
+    name:
+      右托盘#其他
+
+  ruler-tweezers#right:
+    object:
+      - ruler
+      - tweezers
+    predict:
+      - right
+    name:
+      重量标尺-镊子#正确
+
+  ruler-tweezers#wrong:
+    object:
+      - ruler
+      - tweezers
+    predict:
+      - wrong
+    name:
+      重量标尺-镊子#错误
+
+  ruler#not_zero:
+    object:
+      - ruler
+    predict:
+      - not_zero
+    name:
+      重量标尺#不归零
+
+  ruler#zero:
+    object:
+      - ruler
+    predict:
+      - zero
+    name:
+      重量标尺#归零
+
+
+exp_object:
+  cls_top:
+    - scale
+    - left.tray
+    - right.tray
+    - beaker
+    - tweezers
+    - weights
+
+  cls_top_name:
+    - 平衡标尺
+    - 左托盘
+    - 右托盘
+    - 烧杯
+    - 镊子
+    - 砝码
+
+  cls_side:
+    - ruler
+    - tweezers
+    - rider
+    - cylinder
+    - beaker
+
+  cls_side_name:
+    - 重量标尺
+    - 镊子
+    - 游码
+    - 量筒
+    - 烧杯
+
+exp_angle:
+  top:
+    - scale
+    - left.tray
+    - right.tray
+
+  side:
+    - ruler
+    - ruler-tweezers

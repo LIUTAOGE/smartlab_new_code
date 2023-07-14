@@ -1,0 +1,110 @@
+exp_rules:
+  keyframe:
+    s_1:
+      key_name: 游码归零
+      name: initial_score_rider
+      start:
+        condition_1:
+          - ruler#zero
+      end: None
+
+    s_2:
+      key_name: 天平平衡
+      name: initial_score_balance
+      start:
+        condition_1:
+          - scale#zero
+        condition_2: None
+      end: None
+
+    s_3:
+      key_name: 将待测物（电池）放在天平左盘上
+      name: measuring_score_object_left
+      start:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#other
+      end: None
+
+    s_4:
+      key_name: 将砝码放在天平右盘上
+      name: measuring_score_weights_right
+      start:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+        condition_2:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_battery
+      end: None
+
+    s_5:
+      key_name: 用镊子取砝码
+      name: measuring_score_weights_tweezers
+      start:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - tweezers-weights#right
+      end: None
+
+    s_6:
+      key_name: 用镊子调节游码
+      name: measuring_score_rider_tweezers
+      start:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+          - and
+          - ruler-tweezers#right
+        condition_2:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_battery
+          - and
+          - ruler-tweezers#right
+      end: None
+
+    s_7:
+      key_name: 平衡后读数正确
+      name: measuring_score_balance
+      start:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+          - and
+          - scale#zero
+        condition_2:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_battery
+          - and
+          - scale#zero
+      end: None
+
+    s_8:
+      key_name: 整理并复原实验器材
+      name: end_score_tidy
+      start: None
+      end: None

@@ -1,0 +1,140 @@
+class_model:
+  multi:
+    mae:
+      ammeter_pointer:
+        path: models/bulb/am_p_class/checkpoint-949_re.pth
+        nb: 2
+        classname:
+          - nonzero
+          - zero
+
+      bulb_module:
+        path: models/bulb/bulb_c_class/checkpoint-1220_re.pth
+        nb: 2
+        classname:
+          - connect
+          - unconnect
+
+      power:
+        path: models/bulb/power_3cls_not_balance/checkpoint-1599_re.pth
+        nb: 3
+        classname:
+          - connect
+          - not_sure
+          - unconnect
+
+
+    mobilenet:
+      ammeter:
+        path: models/bulb/ammeter_3cls_not_balance/latest_re.pth
+        nb: 3
+
+      switch:
+        path: models/bulb/switch_class/latest_re.pth
+        nb: 2
+
+      bulb:
+        path: models/bulb/bulb_class/latest_re.pth
+        nb: 2
+
+  one:
+    mae:
+      oneComp:
+        path: models/mae/all.pth
+
+    mobilenet:
+      oneComp:
+        mode_is_openvino: True #True|False
+        path: models/one/bulb/latest.pth
+        openvino_path: models/one/bulb/mobile_latest.xml
+        nb: 15
+        classname:
+          - ammeter#power#not_sure
+          - ammeter#right
+          - ammeter#wrong
+          - ammeter_pointer#nonzero
+          - ammeter_pointer#zero
+          - bulb#light
+          - bulb#not_light
+          - bulb_module#connect
+          - bulb_module#unconnect
+          - power#connect
+          - power#unconnect
+          - switch#off
+          - switch#on
+          - voltmeter_pointer#nonzero
+          - voltmeter_pointer#zero
+
+object_model:
+  side: models/bulb/object_0926_aug/yolox_0223_side.xml
+  top: models/bulb/object_0926_aug/yolox_0223_top.xml
+
+
+mode_cls: one #multi|one
+device: CPU #CPU or GPU
+video_suffix: .mp4
+
+save_video_param:
+  fps: 25
+  width: 800
+  height: 540
+  video_clip_code: XVID
+  video_clip_suffix: .avi
+  video_clip_trans: .mp4
+  max_size: 3000
+
+s_key: True
+true_num: 20
+false_num: 20
+frame_range: 200
+two_phase_max_num: 3
+
+top_conf_thresh: 0.1
+top_nms_thresh: 0.5
+side_conf_thresh: 0.1
+side_nms_thresh: 0.5
+
+action:
+  class:
+    - connecting
+    - measuring
+
+  key_frame:
+    s_1: connecting-measuring
+    s_2: connecting-measuring
+    s_3: connecting-measuring
+    s_4: connecting-measuring
+    s_5: measuring
+    s_6: measuring
+    s_7: measuring
+    s_8: None
+
+  transition:
+    a_1:
+      o_state: connecting
+      name: con2_meas
+      e_state: measuring
+      trigger:
+        condition_1:
+          - power#connect
+          - and
+          - bulb_module#connect
+          - and
+          - ammeter#right
+        condition_2: None
+
+
+exp_filter:
+  - ammeter
+  - voltmeter
+  - ammeter_pointer
+  - voltmeter_pointer
+  - power
+  - bulb
+  - bulb_module
+  - switch
+
+exp_range_state:
+  - power
+  - ammeter
+  - switch

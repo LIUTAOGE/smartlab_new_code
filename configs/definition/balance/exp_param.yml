@@ -1,0 +1,131 @@
+class_model:
+  multi:
+    mae:
+      ruler:
+        path: models/balance/ruler_cls/checkpoint-908.pth
+        nb: 2
+        classname:
+          - not_zero
+          - zero
+      tweezers-weights:
+        path: models/balance/tweezers_weights_cls/checkpoint-41.pth
+        nb: 2
+        classname:
+          - right
+          - wrong
+
+    mobilenet:
+      ruler-tweezers:
+        path: models/balance/rider_and_tweezers_cls/best_accuracy_epoch_98.pth
+        nb: 2
+
+      scale:
+        path: models/balance/scale_cls/epoch_63.pth
+        nb: 2
+
+      tray:
+        path: models/balance/tray_cls/best_accuracy_epoch_15.pth
+        nb: 3
+
+  one:
+    mae:
+      oneComp:
+        path: models/mae/all.pth
+
+    mobilenet:
+      oneComp:
+        mode_is_openvino: True #True|False
+        path: models/one/balance/latest.pth   #torch模型路径
+        openvino_path: models/one/balance/mobile_latest.xml #openvino的模型路径
+        nb: 11      #模型分类数量，用于torch模型使用
+        classname:    #模型classname ，用于openvino模型使用
+          - ruler#not_zero
+          - ruler#zero
+          - ruler-tweezers#right
+          - ruler-tweezers#wrong
+          - scale#not_zero
+          - scale#zero
+          - tray#other
+          - tray#put_battery
+          - tray#put_weight
+          - tweezers-weights#right
+          - tweezers-weights#wrong
+
+
+object_model:
+  side: models/balance/yolox/balance_side.xml
+  top: models/balance/yolox/balance_top.xml
+
+
+mode_cls: one #multi|one
+device: CPU #CPU or GPU
+video_suffix: .mp4  #读取的视频后缀格式
+
+save_video_param:
+  fps: 25
+  width: 800
+  height: 540
+  video_clip_code: XVID  #转码前保存视频格式
+  video_clip_suffix: .avi #转码前保存视频格式
+  video_clip_trans: .mp4 #转码后的视频格式 （可以在网页播放）
+  max_size: 3000
+
+
+true_num: 20
+false_num: 20
+frame_range: 100
+two_phase_max_num: 3
+
+top_conf_thresh: 0.1
+top_nms_thresh: 0.5
+side_conf_thresh: 0.1
+side_nms_thresh: 0.5
+
+action:
+  class:
+    - initial
+    - measuring
+
+  key_frame:
+    s_1: initial
+    s_2: initial
+    s_3: measuring
+    s_4: measuring
+    s_5: measuring
+    s_6: measuring
+    s_7: measuring
+    s_8: None
+
+  transition:
+    a_1:
+      o_state: initial
+      name: in2_meas
+      e_state: measuring
+      trigger:
+        condition_1:
+          - left.tray#put_battery
+          - or
+          - left.tray#put_weight
+        condition_2:
+          - right.tray#put_battery
+          - or
+          - right.tray#put_weight
+
+
+
+exp_filter: #filter one
+  - scale
+  - left.tray
+  - right.tray
+  - battery
+  - tweezers
+  - ruler
+  - rider
+
+exp_range_state: #需要连续判断
+  - ruler
+  - scale
+  - left.tray
+  - right.tray
+  - ruler-tweezers
+  - tweezers-weights

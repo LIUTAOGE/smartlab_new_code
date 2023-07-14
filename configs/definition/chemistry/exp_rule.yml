@@ -1,0 +1,124 @@
+exp_rules:
+  keyframe:
+    s_1:
+      key_name: 游码归零，天平平衡
+      name: initial
+      start:
+        condition_1:
+          - scale#zero
+      end: None
+
+    s_2:
+      key_name: 第一次检测烧杯和砝码
+      name: measuring_first_tray
+      start:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+        condition_2:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_beaker
+      end: None
+
+    s_3:
+      key_name: 第一次天平平衡
+      name: measuring_first_balance
+      start:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+          - and
+          - scale#zero
+        condition_2:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_beaker
+          - and
+          - scale#zero
+      end: None
+
+    s_4:
+      key_name: 第一次复原
+      name: measuring_first_tidy
+      start:
+        condition_1:
+          - left.tray#other
+          - and
+          - right.tray#other
+        condition_2: None
+      end: None
+
+    s_5:
+      key_name: 烧杯倒入量筒
+      name: measuring_two_cylinder
+      start:
+        condition_1:
+          - left.tray#other
+          - and
+          - right.tray#other
+      end:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+        condition_2:
+          - right.tray#put_weight
+          - or
+          - right.tray#put_beaker
+
+    s_6:
+      key_name: 第二次检测烧杯和游码
+      name: measuring_two_tray
+      start:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+        condition_2:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_beaker
+      end: None
+
+    s_7:
+      key_name: 第二次天平平衡
+      name: measuring_two_balance
+      start:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_weight
+          - and
+          - scale#zero
+        condition_2:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+          - and
+          - right.tray#put_beaker
+          - and
+          - scale#zero
+      end: None
+
+    s_8:
+      key_name: 最终复原
+      name: end
+      start: None
+      end: None

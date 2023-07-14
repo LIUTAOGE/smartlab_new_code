@@ -1,0 +1,133 @@
+class_model:
+  multi:
+    mae:
+      ruler:
+        path: models/ruler/checkpoint-367.pth
+        nb: 2
+        classname:
+          - not_zero
+          - zero
+
+    mobilenet:
+      ruler-tweezers:
+        path: models/rider_t/epoch_1000.pth
+        nb: 2
+
+      scale:
+        path: models/scale/epoch_328.pth
+        nb: 2
+
+      tray:
+        path: models/tray/epoch_1000.pth
+        nb: 3
+
+  one:
+    mae:
+      oneComp:
+        path: models/mae/all.pth
+
+    mobilenet:
+      oneComp:
+        mode_is_openvino: True #True|False
+        path: models/one/chemistry/latest.pth   #torch模型路径
+        openvino_path: models/one/chemistry/mobile_latest.xml #openvino的模型路径
+        nb: 9      #模型分类数量，用于torch模型使用
+        classname:    #模型classname ，用于openvino模型使用
+          - ruler#not_zero
+          - ruler#zero
+          - ruler-tweezers#right
+          - ruler-tweezers#wrong
+          - scale#nonzero
+          - scale#zero
+          - tray#put_beaker
+          - tray#other
+          - tray#put_weight
+
+
+object_model:
+  side: models/yolox/yolox_che_side_v1.xml
+  top: models/yolox/yolox_che_top_v1.xml
+
+
+mode_cls: one #multi|one
+device: CPU #CPU or GPU
+video_suffix: .avi  #读取的视频后缀格式
+
+save_video_param:
+  fps: 25
+  width: 800
+  height: 540
+  video_clip_code: XVID  #转码前保存视频格式
+  video_clip_suffix: .avi #转码前保存视频格式
+  video_clip_trans: .mp4 #转码后的视频格式 （可以在网页播放）
+  max_size: 3000
+
+
+true_num: 20
+false_num: 20
+frame_range: 60
+two_phase_max_num: 3
+
+top_conf_thresh: 0.1
+top_nms_thresh: 0.5
+side_conf_thresh: 0.1
+side_nms_thresh: 0.5
+
+action:
+  class:
+    - initial
+    - measuring
+    - measuring_two
+
+  key_frame:
+    s_1: initial
+    s_2: initial-measuring
+    s_3: measuring
+    s_4: measuring
+    s_5: measuring_two
+    s_6: measuring_two
+    s_7: measuring_two
+    s_8: None
+
+  transition:
+    a_1:
+      o_state: initial
+      name: in2_meas
+      e_state: measuring
+      trigger:
+        condition_1:
+          - left.tray#put_beaker
+          - or
+          - left.tray#put_weight
+        condition_2:
+          - right.tray#put_beaker
+          - or
+          - right.tray#put_weight
+    a_2:
+      o_state: measuring
+      name: meas2_meastwo
+      e_state: measuring_two
+      trigger:
+        condition_1:
+          - left.tray#other
+          - and
+          - right.tray#other
+        condition_2: None
+
+
+exp_filter:
+  - scale
+  - left.tray
+  - right.tray
+  - beaker
+  - tweezers
+  - ruler
+  - rider
+  - cylinder
+
+exp_range_state:
+  - ruler
+  - scale
+  - left.tray
+  - right.tray
+  - ruler-tweezers

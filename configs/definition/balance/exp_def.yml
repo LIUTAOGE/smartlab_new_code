@@ -1,0 +1,157 @@
+exp_name: balance #实验名称
+
+exp_class: # 实验分类
+  scale#zero:
+    object:
+      - scale
+    predict:
+      - zero
+    name:
+      平衡标尺#归零
+
+  scale#not_zero:
+    object:
+      - scale
+    predict:
+      - not_zero
+    name:
+      平衡标尺#不归零
+
+  ruler#not_zero:
+    object:
+      - ruler
+    predict:
+      - not_zero
+    name:
+      重量标尺#不归零
+
+  ruler#zero:
+    object:
+      - ruler
+    predict:
+      - zero
+    name:
+      重量标尺#归零
+
+  left.tray#put_battery:
+    object:
+      - left.tray
+    predict:
+      - put_battery
+    name:
+      左托盘#放电池
+
+  left.tray#put_weight:
+    object:
+      - left.tray
+    predict:
+      - put_weight
+    name:
+      左托盘#放砝码
+
+  left.tray#other:
+    object:
+      - left.tray
+    predict:
+      - other
+    name:
+      左托盘#其他
+
+  right.tray#put_battery:
+    object:
+      - right.tray
+    predict:
+      - put_battery
+    name:
+      右托盘#放电池
+
+  right.tray#put_weight:
+    object:
+      - right.tray
+    predict:
+      - put_weight
+    name:
+      右托盘#放砝码
+
+  right.tray#other:
+    object:
+      - right.tray
+    predict:
+      - other
+    name:
+      右托盘#其他
+  ruler-tweezers#right:
+    object:
+      - ruler
+      - tweezers
+    predict:
+      - right
+    name:
+      重量标尺-镊子#正确
+
+  ruler-tweezers#wrong:
+    object:
+      - ruler
+      - tweezers
+    predict:
+      - wrong
+    name:
+      重量标尺-镊子#错误
+
+  tweezers-weights#right:
+    object:
+      - tweezers
+      - weights
+    predict:
+      - right
+    name:
+      镊子夹砝码#正确
+
+  tweezers-weights#wrong:
+    object:
+      - tweezers
+      - weights
+    predict:
+      - wrong
+    name:
+      镊子夹砝码#错误
+
+
+
+exp_object: #目标检测| 顺序需要对应，名称可以修改
+  cls_top:
+    - right.tray
+    - left.tray
+    - scale
+    - battery
+    - weights
+    - tweezers
+
+  cls_top_name:
+    - 右托盘
+    - 左托盘
+    - 平衡标尺
+    - 电池
+    - 砝码
+    - 镊子
+
+  cls_side:
+    - rider
+    - ruler
+    - tweezers
+
+  cls_side_name:
+    - 游码
+    - 重量标尺
+    - 镊子
+
+exp_angle: #剪裁配置 clstor使用
+  top:
+    - scale
+    - left.tray
+    - right.tray
+    - tweezers-weights
+
+  side:
+    - ruler
+    - ruler-tweezers

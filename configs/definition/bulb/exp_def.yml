@@ -1,0 +1,111 @@
+exp_name: bulb
+
+exp_class:
+  power#connect:
+    object:
+      - power
+    predict:
+      - connect
+
+  power#unconnect:
+    object:
+      - power
+    predict:
+      - unconnect
+
+
+  ammeter#right:
+    object:
+      - ammeter
+    predict:
+      - right
+
+  ammeter#wrong:
+    object:
+      - ammeter
+    predict:
+      - wrong
+
+  bulb_module#connect:
+    object:
+      - bulb_module
+    predict:
+      - connect
+
+  bulb_module#unconnect:
+    object:
+      - bulb_module
+    predict:
+      - unconnect
+
+  bulb#light:
+    object:
+      - bulb
+    predict:
+      - light
+
+  bulb#not_light:
+    object:
+      - bulb
+    predict:
+      - not_light
+
+  switch#on:
+    object:
+      - switch
+    predict:
+      - on
+
+  switch#off:
+    object:
+      - switch
+    predict:
+      - off
+
+  ammeter_pointer#zero:
+    object:
+      - ammeter_pointer
+    predict:
+      - zero
+
+  ammeter_pointer#nonzero:
+    object:
+      - ammeter_pointer
+    predict:
+      - nonzero
+
+  voltmeter_pointer#zero:
+    object:
+      - voltmeter_pointer
+    predict:
+      - zero
+
+  voltmeter_pointer#nonzero:
+    object:
+      - voltmeter_pointer
+    predict:
+      - nonzero
+
+exp_object:
+  cls_top:
+    - ammeter
+    - voltmeter
+    - ammeter_pointer
+    - voltmeter_pointer
+    - power
+    - bulb
+    - bulb_module
+
+  cls_side:
+    - switch
+
+exp_angle: #裁剪分类
+  top:
+    - ammeter
+    - ammeter_pointer
+    - power
+    - bulb
+    - bulb_module
+
+  side:
+    - switch

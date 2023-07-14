@@ -1,0 +1,126 @@
+exp_rules:
+  keyframe:
+    s_1:
+      name: connecting_score_power_connect
+      start:
+        condition_1:
+          - power#connect
+          - and
+          - ammeter#right
+      end: None
+
+    s_2:
+      name: connecting_score_range_choose
+      start:
+        condition_1:
+          - ammeter#right
+        condition_2: None
+      end: None
+
+    s_3:
+      name: connecting_score_bubble_connect
+      start:
+        condition_1:
+          - bulb_module#connect
+          - and
+          - ammeter#right
+        condition_2: None
+      end: None
+
+    s_4:
+      name: connecting_score_keep_switch_off
+      start:
+        condition_1:
+          - bulb_module#connect
+          - and
+          - ammeter#right
+          - and
+          - switch#off
+        condition_2: None
+      end:
+        condition_1:
+          - bulb#light
+          - and
+          - switch#on
+        condition_2:
+          - ammeter_pointer#nonzero
+          - and
+          - switch#on
+
+    s_5:
+      name: measuring_score_current_stable
+      start:
+        condition_1:
+          - switch#on
+          - and
+          - bulb#light
+        condition_2:
+          - switch#on
+          - and
+          - ammeter_pointer#nonzero
+        condition_3:
+          - switch#on
+          - and
+          - bulb_module#connect
+          - and
+          - ammeter#right
+      end:
+        condition_1:
+          - switch#off
+          - and
+          - bulb#not_light
+          - and
+          - ammeter_pointer#zero
+        condition_2: None
+
+    s_6:
+      name: measuring_score_balance
+      start:
+        condition_1:
+          - switch#on
+          - and
+          - bulb#light
+        condition_2:
+          - switch#on
+          - and
+          - ammeter_pointer#nonzero
+        condition_3:
+          - switch#on
+          - and
+          - bulb_module#connect
+          - and
+          - ammeter#right
+      end:
+        condition_1:
+          - switch#off
+          - and
+          - bulb#not_light
+          - and
+          - ammeter_pointer#zero
+        condition_2: None
+
+    s_7:
+      name: measuring_score_order
+      start:
+        condition_1:
+          - bulb#light
+          - and
+          - switch#on
+        condition_2:
+          - ammeter_pointer#nonzero
+          - and
+          - switch#on
+      end:
+        condition_1:
+          - switch#off
+          - and
+          - bulb_module#unconnect
+        condition_2:
+          - switch#off
+          - and
+          - ammeter#wrong
+
+    s_8:
+      name: end_score_tidy
+      start: None
+      end: None
